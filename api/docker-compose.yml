@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  api:
+    container_name: ec-api
+    build: .
+    tty: true
+    restart: always
+    ports:
+      - "5555:7777"
+    volumes:
+      - type: bind
+        source: ./ec-api
+        target: /ec-api
+  db:
+    container_name: ec-local-db
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ec-local
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      TZ: "Asia/Tokyo"
+    volumes:
+      - type: volume
+        source: ec-local-volume
+        target: /var/lib/mysql
+
+volumes:
+  ec-local-volume:
